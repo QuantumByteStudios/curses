@@ -19,7 +19,6 @@ infringement.
 
 #include <iostream>
 #include <stdlib.h>
-// using namespace std;
 
 #define gotoxy(x, y) printf("\033[%d;%dH", (y), (x))
 
@@ -65,18 +64,18 @@ void addstr(std::string str)
   std::cout << str;
 }
 
-void addstr(std::string str, char color)
+void addstr(std::string str, char format)
 {
   // Add a std::string to the screen.
-  if (color == 'b' || color == 'B')
+  if (format == 'b' || format == 'B')
   {
     std::cout << BOLD << str << RESET;
   }
-  else if (color == 'u' || color == 'U')
+  else if (format == 'u' || format == 'U')
   {
     std::cout << UNDERLINE << str << RESET;
   }
-  else if (color == 'r' || color == 'R')
+  else if (format == 'r' || format == 'R')
   {
     std::cout << REVERSE << str << RESET;
   }
