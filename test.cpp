@@ -6,7 +6,6 @@ using namespace std;
 int main()
 {
        universalClear();
-
        boldRedStr("  _______  _____  ____________\n");
        boldBlueStr(" / ___/ / / / _ \\/ __/ __/ __/\n");
        boldGreenStr("/ /__/ /_/ / , _/\\ \\/ _/_\\ \\  \n");
