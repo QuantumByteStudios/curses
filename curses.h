@@ -19,6 +19,32 @@ infringement.
 
 #include <iostream>
 #include <stdlib.h>
+#include <strings.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <signal.h>
+#include <time.h>
+
+#ifdef _WIN32
+#include <windows.h>
+#include "termiWin.h"
+#elif __linux__
+#include <sys/ioctl.h>
+#include <termios.h>
+#elif __unix__
+#include <sys/ioctl.h>
+#include <termios.h>
+#else
+printf("Unidentified OS, Cannot Perform a \"CLEAR\" :( \n");
+#endif
+
+typedef struct
+{
+  int width;
+  int height;
+} terminalSize;
+
+terminalSize currentTerm;
 
 #define gotoxy(x, y) printf("\033[%d;%dH", (y), (x))
 
@@ -43,7 +69,15 @@ infringement.
 #define BOLD "\033[1m"                /* Bold */
 #define UNDERLINE "\u001b[4m"         /* Underline */
 #define REVERSE "\u001b[7m"           /* Reverse */
-
+// Background
+#define TC_BG_NRM "\x1B[40m"
+#define TC_BG_RED " \x1B[41m"
+#define TC_BG_GRN "\x1B[42m"
+#define TC_BG_YEL "\x1B[43m"
+#define TC_BG_BLU "\x1B[44m"
+#define TC_BG_MAG "\x1B[45m"
+#define TC_BG_CYN "\x1B[46m"
+#define TC_BG_WHT "\x1B[47m"
 void universalClear()
 {
 #ifdef _WIN32
@@ -165,3 +199,102 @@ void boldBlueStr(std::string str) { std::cout << BOLDBLUE << str << RESET; }
 void boldMagentaStr(std::string str) { std::cout << BOLDMAGENTA << str << RESET; }
 void boldCyanStr(std::string str) { std::cout << BOLDCYAN << str << RESET; }
 void boldWhiteStr(std::string str) { std::cout << BOLDWHITE << str << RESET; }
+
+#define clearScreen() puts("\x1B[2J")
+
+#define moveCursor(X, Y) printf("\033[%d;%dH", Y, X)
+
+// void tc_get_cols_rows(int *cols, int *rows);
+
+#define startNewInstance() puts("\033[?1049h\033[H")
+#define endNewInstance() puts("\033[?1049l")
+
+int termSize()
+{
+  /*
+    USE: currentTerm.width, currentTerm.height
+    to access width and height respectively.
+  */
+#ifdef _WIN32
+  CONSOLE_SCREEN_BUFFER_INFO csbi;
+  int columns, rows;
+  GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+  columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+  rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+  currentTerm.width = columns;
+  currentTerm.height = rows;
+  // printf("width: %d, height: %d", currentTerm.width, currentTerm.height);
+#elif __linux__ || __unix__
+  struct winsize w;
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+  int columns = w.ws_row;
+  int rows = w.ws_col;
+  currentTerm.width = columns;
+  currentTerm.height = rows;
+  // printf("width: %d, height: %d", currentTerm.width, currentTerm.height);
+#endif
+}
+
+void wait(int number_of_seconds)
+{
+  // Converting time into milli_seconds
+  int milli_seconds = 100 * number_of_seconds;
+
+  // Storing start time
+  clock_t start_time = clock();
+
+  // looping till required time is not achieved
+  while (clock() < start_time + milli_seconds)
+    ;
+}
+
+void centerText(std::string text)
+{
+  int h = currentTerm.height / 2;
+  int w = currentTerm.width / 2;
+  moveCursor(w, h);
+  addstr(text);
+}
+
+void processBar(int value, int delay, std::string message)
+{
+  int h = currentTerm.height;
+  int w = currentTerm.width;
+  moveCursor(w, h);
+  redStr("\n|");
+  int percCords = (w / 2) - 3;
+
+  if (value % 10 == 1)
+  {
+    for (int i = 0; i < w - 4; i++)
+    {
+      if (i == percCords)
+      {
+        std::cout << YELLOW << value << "%" << RESET;
+      }
+      else
+      {
+        greenStr("=");
+        wait(delay);
+      }
+    }
+  }
+  else
+  {
+    for (int i = 0; i < w - 5; i++)
+    {
+      if (i == percCords)
+      {
+        std::cout << YELLOW << value << "%" << RESET;
+      }
+      else
+      {
+        greenStr("=");
+        wait(delay);
+      }
+    }
+  }
+
+  redStr("|\n");
+  blueStr(message);
+}
