@@ -33,7 +33,8 @@ using std::string;
 #ifdef _WIN32
 #include <windows.h>
 #include <conio.h>
-#include "termiWin.h"
+#include "src/headers/termiWin.h"
+
 #elif __linux__
 #include <sys/ioctl.h>
 #include <termios.h>
