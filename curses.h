@@ -25,8 +25,14 @@ infringement.
 #include <signal.h>
 #include <time.h>
 
+using std::cin;
+using std::cout;
+using std::endl;
+using std::string;
+
 #ifdef _WIN32
 #include <windows.h>
+#include <conio.h>
 #include "termiWin.h"
 #elif __linux__
 #include <sys/ioctl.h>
@@ -78,6 +84,7 @@ terminalSize currentTerm;
 #define TC_BG_MAG "\x1B[45m"
 #define TC_BG_CYN "\x1B[46m"
 #define TC_BG_WHT "\x1B[47m"
+
 void universalClear()
 {
 #ifdef _WIN32
@@ -91,70 +98,70 @@ void universalClear()
 #endif
 }
 
-// std::stringS
-void addstr(std::string str)
+//  stringS
+void addstr(string str)
 {
-  // Add a std::string to the screen.
-  std::cout << str;
+  // Add a  string to the screen.
+  cout << str;
 }
 
-void addstr(std::string str, char format)
+void addstr(string str, char format)
 {
-  // Add a std::string to the screen.
+  // Add a  string to the screen.
   if (format == 'b' || format == 'B')
   {
-    std::cout << BOLD << str << RESET;
+    cout << BOLD << str << RESET;
   }
   else if (format == 'u' || format == 'U')
   {
-    std::cout << UNDERLINE << str << RESET;
+    cout << UNDERLINE << str << RESET;
   }
   else if (format == 'r' || format == 'R')
   {
-    std::cout << REVERSE << str << RESET;
+    cout << REVERSE << str << RESET;
   }
   else
   {
-    std::cout << str;
+    cout << str;
   }
 }
 
-void addstr(int lines, int characters, std::string str)
+void addstr(int lines, int characters, string str)
 {
   // Add a Lines to the screen.
   for (int i = 0; i < lines; i++)
   {
-    std::cout << std::endl;
+    cout << endl;
   }
   // Add a Character Spaces to the screen.
   for (int i = 0; i < lines; i++)
   {
-    std::cout << " ";
+    cout << " ";
   }
-  // Add a std::string to the screen.
-  std::cout << str;
+  // Add a  string to the screen.
+  cout << str;
 }
 
-void addstr(int lines, int characters, std::string str, char color)
+void addstr(int lines, int characters, string str, char color)
 {
   // Add a Lines to the screen.
   for (int i = 0; i < lines; i++)
   {
-    std::cout << std::endl;
+    cout << endl;
   }
   // Add a Character Spaces to the screen.
   for (int i = 0; i < lines; i++)
   {
-    std::cout << " ";
+    cout << " ";
   }
-  // Add a std::string to the screen.
+  // Add a  string to the screen.
   if (color == 'b' || color == 'B')
   {
-    std::cout << BOLD << str << RESET;
+    cout << BOLD << str << RESET;
   }
   else
   {
-    std::cout << str;
+    cout << str;
   }
 }
 
@@ -164,12 +171,12 @@ void gimmeSomeSpace(int lines, int characters)
   // Add a Lines to the screen.
   for (int i = 0; i < lines; i++)
   {
-    std::cout << std::endl;
+    cout << endl;
   }
   // Add a Character Spaces to the screen.
   for (int i = 0; i < characters; i++)
   {
-    std::cout << " ";
+    cout << " ";
   }
 }
 
@@ -178,27 +185,27 @@ void gimmeSomeSpace(int lines)
   // Add a Lines to the screen.
   for (int i = 0; i < lines; i++)
   {
-    std::cout << std::endl;
+    cout << endl;
   }
 }
 
-void blackStr(std::string str) { std::cout << BLACK << str << RESET; }
-void redStr(std::string str) { std::cout << RED << str << RESET; }
-void greenStr(std::string str) { std::cout << GREEN << str << RESET; }
-void yellowStr(std::string str) { std::cout << YELLOW << str << RESET; }
-void blueStr(std::string str) { std::cout << BLUE << str << RESET; }
-void magentaStr(std::string str) { std::cout << MAGENTA << str << RESET; }
-void cyanStr(std::string str) { std::cout << CYAN << str << RESET; }
-void whiteStr(std::string str) { std::cout << WHITE << str << RESET; }
+void blackStr(string str) { cout << BLACK << str << RESET; }
+void redStr(string str) { cout << RED << str << RESET; }
+void greenStr(string str) { cout << GREEN << str << RESET; }
+void yellowStr(string str) { cout << YELLOW << str << RESET; }
+void blueStr(string str) { cout << BLUE << str << RESET; }
+void magentaStr(string str) { cout << MAGENTA << str << RESET; }
+void cyanStr(string str) { cout << CYAN << str << RESET; }
+void whiteStr(string str) { cout << WHITE << str << RESET; }
 
-void boldBlackStr(std::string str) { std::cout << BOLDBLACK << str << RESET; }
-void boldRedStr(std::string str) { std::cout << BOLDRED << str << RESET; }
-void boldGreenStr(std::string str) { std::cout << BOLDGREEN << str << RESET; }
-void boldYellowStr(std::string str) { std::cout << BOLDYELLOW << str << RESET; }
-void boldBlueStr(std::string str) { std::cout << BOLDBLUE << str << RESET; }
-void boldMagentaStr(std::string str) { std::cout << BOLDMAGENTA << str << RESET; }
-void boldCyanStr(std::string str) { std::cout << BOLDCYAN << str << RESET; }
-void boldWhiteStr(std::string str) { std::cout << BOLDWHITE << str << RESET; }
+void boldBlackStr(string str) { cout << BOLDBLACK << str << RESET; }
+void boldRedStr(string str) { cout << BOLDRED << str << RESET; }
+void boldGreenStr(string str) { cout << BOLDGREEN << str << RESET; }
+void boldYellowStr(string str) { cout << BOLDYELLOW << str << RESET; }
+void boldBlueStr(string str) { cout << BOLDBLUE << str << RESET; }
+void boldMagentaStr(string str) { cout << BOLDMAGENTA << str << RESET; }
+void boldCyanStr(string str) { cout << BOLDCYAN << str << RESET; }
+void boldWhiteStr(string str) { cout << BOLDWHITE << str << RESET; }
 
 #define clearScreen() puts("\x1B[2J")
 
@@ -248,7 +255,7 @@ void wait(int number_of_seconds)
     ;
 }
 
-void centerText(std::string text)
+void centerText(string text)
 {
   int h = currentTerm.height / 2;
   int w = currentTerm.width / 2;
@@ -256,7 +263,7 @@ void centerText(std::string text)
   addstr(text);
 }
 
-void processBar(int value, int delay, std::string message)
+void processBar(int value, int delay, string message)
 {
   int h = currentTerm.height;
   int w = currentTerm.width;
@@ -270,7 +277,7 @@ void processBar(int value, int delay, std::string message)
     {
       if (i == percCords)
       {
-        std::cout << YELLOW << value << "%" << RESET;
+        cout << YELLOW << value << "%" << RESET;
       }
       else
       {
@@ -285,7 +292,7 @@ void processBar(int value, int delay, std::string message)
     {
       if (i == percCords)
       {
-        std::cout << YELLOW << value << "%" << RESET;
+        cout << YELLOW << value << "%" << RESET;
       }
       else
       {
