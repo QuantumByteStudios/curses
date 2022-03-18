@@ -9,6 +9,5 @@
 # Preview
 
 <p align="center">
-  <img src="img/preview.png" alt="PreviewImage">
+  <img src="src/img/preview.png" alt="PreviewImage">
 </p>
-
