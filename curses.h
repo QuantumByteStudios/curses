@@ -34,13 +34,15 @@ using std::string;
 #include <windows.h>
 #include <conio.h>
 #include "src/headers/termiWin.h"
-
+bool osIsWindows = true;
 #elif __linux__
 #include <sys/ioctl.h>
 #include <termios.h>
+bool osIsLinux = true;
 #elif __unix__
 #include <sys/ioctl.h>
 #include <termios.h>
+bool osIsLinux = true;
 #else
 printf("Unidentified OS, Cannot Perform a \"CLEAR\" :( \n");
 #endif
@@ -77,14 +79,14 @@ terminalSize currentTerm;
 #define UNDERLINE "\u001b[4m"         /* Underline */
 #define REVERSE "\u001b[7m"           /* Reverse */
 // Background
-#define TC_BG_NRM "\x1B[40m"
-#define TC_BG_RED " \x1B[41m"
-#define TC_BG_GRN "\x1B[42m"
-#define TC_BG_YEL "\x1B[43m"
-#define TC_BG_BLU "\x1B[44m"
-#define TC_BG_MAG "\x1B[45m"
-#define TC_BG_CYN "\x1B[46m"
-#define TC_BG_WHT "\x1B[47m"
+#define BG_NRM "\x1B[40m"
+#define BG_RED " \x1B[41m"
+#define BG_GRN "\x1B[42m"
+#define BG_YEL "\x1B[43m"
+#define BG_BLU "\x1B[44m"
+#define BG_MAG "\x1B[45m"
+#define BG_CYN "\x1B[46m"
+#define BG_WHT "\x1B[47m"
 
 void universalClear()
 {
@@ -305,4 +307,29 @@ void processBar(int value, int delay, string message)
 
   redStr("|\n");
   blueStr(message);
+}
+
+void setTitle(char *title, string backColor, string foreColor)
+{
+  // gotoxy(-2, 0); // -1 for left corner, 0 for top
+
+  int titleLen = strlen(title);
+  int w = currentTerm.width;
+
+  int printCords = (w / 2) - titleLen - 1;
+
+  cout << backColor << foreColor;
+
+  for (int i = 0; i < w - titleLen - 1; i++)
+  {
+    if (i == printCords)
+    {
+      cout << title;
+    }
+    else
+    {
+      cout << " ";
+    }
+  }
+  cout << RESET << BG_NRM;
 }
