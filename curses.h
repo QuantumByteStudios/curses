@@ -19,10 +19,8 @@ infringement.
 
 #include <iostream>
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 #include <stdio.h>
-#include <unistd.h>
-#include <signal.h>
 #include <time.h>
 
 using std::cin;
@@ -31,11 +29,13 @@ using std::endl;
 using std::string;
 
 #ifdef _WIN32
+#include <signal.h>
 #include <windows.h>
 #include <conio.h>
 #include "src/headers/termiWin.h"
 bool osIsWindows = true;
 #elif __linux__
+#include <unistd.h>
 #include <sys/ioctl.h>
 #include <termios.h>
 bool osIsLinux = true;
@@ -47,12 +47,18 @@ bool osIsLinux = true;
 printf("Unidentified OS, Cannot Perform a \"CLEAR\" :( \n");
 #endif
 
+// Structure to store Terminal Size
+/*
+  Features To Implement
+    * Check after a certian tick -- No LAG!!
+*/
 typedef struct
 {
   int width;
   int height;
 } terminalSize;
 
+// Object for Current Session
 terminalSize currentTerm;
 
 #define gotoxy(x, y) printf("\033[%d;%dH", (y), (x))
@@ -243,6 +249,7 @@ int termSize()
   currentTerm.height = rows;
   // printf("width: %d, height: %d", currentTerm.width, currentTerm.height);
 #endif
+  // End
 }
 
 void wait(int number_of_seconds)
@@ -312,11 +319,12 @@ void processBar(int value, int delay, string message)
 void setTitle(char *title, string backColor, string foreColor)
 {
   // gotoxy(-2, 0); // -1 for left corner, 0 for top
-
+  // int length = strlen(title);
   int titleLen = strlen(title);
   int w = currentTerm.width;
 
-  int printCords = (w / 2) - titleLen - 1;
+  int printCords = (w / 2) - (titleLen / 2 - (titleLen % 2));
+  // int printCords = (w / 2) - titleLen - 1;
 
   cout << backColor << foreColor;
 
