@@ -60,6 +60,8 @@ int main()
        boldCyanStr("This is Bold Cyan color string.\n");
        boldWhiteStr("This is Bold White color string.\n");
 
+       delayEffectText("\n\nHey, This is a Delay Effect Text!\nSo it has a time gap of 1 millisecond it looks like someone is typing something...anyways i find it cool so i just added it :P");
+
        endNewInstance();
        // getch();
        return 0;
