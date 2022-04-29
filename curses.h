@@ -22,6 +22,7 @@ infringement.
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+#include <cstdlib>
 
 using std::cin;
 using std::cout;
@@ -340,4 +341,14 @@ void setTitle(char *title, string backColor, string foreColor)
     }
   }
   cout << RESET << BG_NRM;
+}
+
+void delayEffectText(string text)
+{
+  int len = text.length();
+  for (int i = 0; i < len; i++)
+  {
+    cout << text[i];
+    wait(1);
+  }
 }
