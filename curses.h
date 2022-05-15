@@ -274,47 +274,123 @@ void centerText(string text)
   addstr(text);
 }
 
-void processBar(int value, int delay, string message)
+// void processBar(int value, int delay, string message)
+// {
+//   int h = currentTerm.height;
+//   int w = currentTerm.width;
+//   moveCursor(w, h);
+//   redStr("\n|");
+//   int percCords = (w / 2) - 3;
+
+//   if (value % 10 == 1)
+//   {
+//     for (int i = 0; i < w - 4; i++)
+//     {
+//       if (i == percCords)
+//       {
+//         cout << YELLOW << value << "%" << RESET;
+//       }
+//       else
+//       {
+//         greenStr("=");
+//         wait(delay);
+//       }
+//     }
+//   }
+//   else
+//   {
+//     for (int i = 0; i < w - 5; i++)
+//     {
+//       if (i == percCords)
+//       {
+//         cout << YELLOW << value << "%" << RESET;
+//       }
+//       else
+//       {
+//         greenStr("=");
+//         wait(delay);
+//       }
+//     }
+//   }
+
+//   redStr("|\n");
+//   blueStr(message);
+// }
+
+void timesPrint(string fill, int times)
+{
+  int i = 0;
+  while (i < times)
+  {
+    cout << fill;
+    i++;
+  }
+}
+
+void specialProgreassBar(int value, int delay, string message)
 {
   int h = currentTerm.height;
   int w = currentTerm.width;
-  moveCursor(w, h);
-  redStr("\n|");
-  int percCords = (w / 2) - 3;
-
-  if (value % 10 == 1)
+  string space = " ";
+  string fill = "=";
+  string empty = ".";
+  int gapValue = 13;
+  // int messageLength = message.length();
+  int x = 0;
+  if (value == 100)
   {
-    for (int i = 0; i < w - 4; i++)
-    {
-      if (i == percCords)
-      {
-        cout << YELLOW << value << "%" << RESET;
-      }
-      else
-      {
-        greenStr("=");
-        wait(delay);
-      }
-    }
+    value = w - gapValue;
   }
-  else
+  for (int i = 0; i < value; i++)
   {
-    for (int i = 0; i < w - 5; i++)
-    {
-      if (i == percCords)
-      {
-        cout << YELLOW << value << "%" << RESET;
-      }
-      else
-      {
-        greenStr("=");
-        wait(delay);
-      }
-    }
-  }
 
-  redStr("|\n");
-  blueStr(message);
+    moveCursor(w, h);
+    cout << space;
+    cout << "Loading(";
+    timesPrint(fill, i);
+    int limit = (w - i) - gapValue;
+    cout << ">";
+    for (int j = 0; j < limit; j++)
+    {
+      cout << empty;
+    }
+    cout << ")";
+    wait(delay);
+    x++;
+  }
+}
+
+void stableProgreassBar(int value, int delay, string message)
+{
+  int h = currentTerm.height;
+  int w = currentTerm.width;
+  string space = " ";
+  string fill = "#";
+  string empty = ".";
+  int gapValue = 13;
+  // int messageLength = message.length();
+  int x = 0;
+  if (value == 100)
+  {
+    value = w - gapValue;
+  }
+  for (int i = 0; i < value; i++)
+  {
+
+    moveCursor(w, h - 1);
+    cout << space;
+    cout << "processing(";
+    timesPrint(fill, i);
+    int limit = (w - i) - gapValue;
+    for (int j = 0; j < limit; j++)
+    {
+      cout << empty;
+    }
+    cout << ")";
+    wait(delay);
+    x++;
+  }
+  greenStr("\n" + message);
 }
 
 void setTitle(char *title, string backColor, string foreColor)
