@@ -322,7 +322,7 @@ void timesPrint(string fill, int times)
   int i = 0;
   while (i < times)
   {
-    cout << fill;
+    greenStr(fill);
     i++;
   }
 }
@@ -332,8 +332,8 @@ void specialProgreassBar(int value, int delay, string message)
   int h = currentTerm.height;
   int w = currentTerm.width;
   string space = " ";
-  string fill = "=";
-  string empty = ".";
+  string fill = "#";
+  string empty = "#";
   int gapValue = 13;
   // int messageLength = message.length();
   int x = 0;
@@ -346,15 +346,15 @@ void specialProgreassBar(int value, int delay, string message)
 
     moveCursor(w, h);
     cout << space;
-    cout << "Loading(";
+    cout << "Loading";
+    yellowStr("(");
     timesPrint(fill, i);
     int limit = (w - i) - gapValue;
-    cout << ">";
     for (int j = 0; j < limit; j++)
     {
-      cout << empty;
+      redStr(empty);
     }
-    cout << ")";
+    yellowStr(")");
     wait(delay);
     x++;
   }
@@ -366,7 +366,7 @@ void stableProgreassBar(int value, int delay, string message)
   int w = currentTerm.width;
   string space = " ";
   string fill = "#";
-  string empty = ".";
+  string empty = "#";
   int gapValue = 13;
   // int messageLength = message.length();
   int x = 0;
@@ -374,19 +374,20 @@ void stableProgreassBar(int value, int delay, string message)
   {
     value = w - gapValue;
   }
-  for (int i = 0; i < value; i++)
+  for (int i = 0; i <= value; i++)
   {
 
     moveCursor(w, h - 1);
     cout << space;
-    cout << "processing(";
+    cout << "processing";
+    yellowStr("(");
     timesPrint(fill, i);
     int limit = (w - i) - gapValue;
     for (int j = 0; j < limit; j++)
     {
-      cout << empty;
+      redStr(empty);
     }
-    cout << ")";
+    yellowStr(")");
     wait(delay);
     x++;
   }
