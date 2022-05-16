@@ -15,8 +15,8 @@ int main()
        // cout << endl;
        // setTitle("Title in Center", BG_RED, WHITE);
 
-       specialProgreassBar(100, 1, "Loading Complete!");
-       // stableProgreassBar(100, 1, "Loading Complete!");
+       // specialProgreassBar(100, 1, "Loading Complete!");
+       stableProgreassBar(100, 1, "Loading Complete!");
 
        // printf("width: %d, height: %d\n", currentTerm.width, currentTerm.height);
        // startNewInstance();
