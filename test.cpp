@@ -17,6 +17,7 @@ int main()
 
        // specialProgreassBar(100, 1, "Loading Complete!");
        stableProgreassBar(100, 1, "Loading Complete!");
+       // stablePercentProgressBar(100, 1, "Loading Complete!");
 
        // printf("width: %d, height: %d\n", currentTerm.width, currentTerm.height);
        // startNewInstance();

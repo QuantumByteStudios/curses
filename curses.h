@@ -394,6 +394,42 @@ void stableProgreassBar(int value, int delay, string message)
   greenStr("\n" + message);
 }
 
+void stablePercentProgressBar(int value, int delay, string message)
+{
+  int h = currentTerm.height;
+  int w = currentTerm.width;
+  string space = " ";
+  string fill = "#";
+  string empty = "#";
+  int gapValue = 18;
+  // int messageLength = message.length();
+  int x = 0;
+  if (value == 100)
+  {
+    value = w - gapValue;
+  }
+  for (int i = 0; i <= value; i++)
+  {
+    float percentage = (w / i) * 100;
+    moveCursor(w, h - 1);
+    cout << space;
+    cout << "processing";
+    yellowStr("(");
+    cout << percentage;
+    cout << "%";
+    timesPrint(fill, i);
+    int limit = (w - i) - gapValue;
+    for (int j = 0; j < limit; j++)
+    {
+      redStr(empty);
+    }
+    yellowStr(")");
+    wait(delay);
+    x++;
+  }
+  greenStr("\n" + message);
+}
+
 void setTitle(char *title, string backColor, string foreColor)
 {
   // gotoxy(-2, 0); // -1 for left corner, 0 for top
